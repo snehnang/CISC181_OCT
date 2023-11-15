@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using OCTOBER.EF.Data;
+using OCTOBER.EF.Models;
 using OCTOBER.Server.Controllers.Base;
 using OCTOBER.Shared.DTO;
 
@@ -20,8 +21,8 @@ namespace OCTOBER.Server.Controllers.UD
         }
 
         [HttpDelete]
-        [Route("Delete/{KeyVal}")]
-        public Task<IActionResult> Delete(int KeyVal)
+        [Route("Delete/{StudentId}/{SectionId}")]
+        public Task<IActionResult> Delete(int StudentId, int SectionId)
         {
             throw new NotImplementedException();
         }
@@ -59,15 +60,16 @@ namespace OCTOBER.Server.Controllers.UD
         }
 
         [HttpGet]
-        [Route("Get/{KeyVal}")]
-        public async Task<IActionResult> Get(int KeyVal)
+        [Route("Get/{StudentId}/{SectionId}")]
+        public async Task<IActionResult> Get(int StudentId, int SectionId)
         {
             try
             {
                 await _context.Database.BeginTransactionAsync();
 
                 EnrollmentDTO? result = await _context.Enrollments
-                    .Where(x => x.SchoolId == KeyVal)
+                    .Where(x => x.StudentId == StudentId)
+                    .Where(x => x.SectionId == SectionId)
                     .Select(sp => new EnrollmentDTO
                 {
                     CreatedBy = sp.CreatedBy,
@@ -102,6 +104,16 @@ namespace OCTOBER.Server.Controllers.UD
         [HttpPut]
         [Route("Put")]
         public Task<IActionResult> Put([FromBody] EnrollmentDTO _T)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IActionResult> GenericRestController<EnrollmentDTO>.Delete(int KeyVal)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IActionResult> GenericRestController<EnrollmentDTO>.Get(int KeyVal)
         {
             throw new NotImplementedException();
         }

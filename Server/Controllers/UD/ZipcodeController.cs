@@ -20,8 +20,8 @@ namespace OCTOBER.Server.Controllers.UD
         }
 
         [HttpDelete]
-        [Route("Delete/{KeyVal}")]
-        public Task<IActionResult> Delete(int KeyVal)
+        [Route("Delete/{Zip}")]
+        public Task<IActionResult> Delete(int Zip)
         {
             throw new NotImplementedException();
         }
@@ -57,15 +57,15 @@ namespace OCTOBER.Server.Controllers.UD
         }
 
         [HttpGet]
-        [Route("Get/{KeyVal}")]
-        public async Task<IActionResult> Get(string KeyVal)
+        [Route("Get/{Zip}")]
+        public async Task<IActionResult> Get(string Zip)
         {
             try
             {
                 await _context.Database.BeginTransactionAsync();
 
                 ZipcodeDTO? result = await _context.Zipcodes
-                    .Where(x=>x.Zip == KeyVal)
+                    .Where(x=>x.Zip == Zip)
                     .Select(sp => new ZipcodeDTO
                 {
                     City = sp.City,
@@ -98,6 +98,11 @@ namespace OCTOBER.Server.Controllers.UD
         [HttpPut]
         [Route("Put")]
         public Task<IActionResult> Put([FromBody] ZipcodeDTO _T)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IActionResult> GenericRestController<ZipcodeDTO>.Get(int KeyVal)
         {
             throw new NotImplementedException();
         }

@@ -20,8 +20,8 @@ namespace OCTOBER.Server.Controllers.UD
         }
 
         [HttpDelete]
-        [Route("Delete/{KeyVal}")]
-        public Task<IActionResult> Delete(int KeyVal)
+        [Route("Delete/{SchoolId}/{StudentId}/{SectionId}/{GradeTypeCode}/{GradeCodeOccurrence}")]
+        public Task<IActionResult> Delete(int SchoolId, int StudentId, int SectionId, string GradeTypeCode, int GradeCodeOccurrence)
         {
             throw new NotImplementedException();
         }
@@ -61,15 +61,19 @@ namespace OCTOBER.Server.Controllers.UD
         }
 
         [HttpGet]
-        [Route("Get/{KeyVal}")]
-        public async Task<IActionResult> Get(int KeyVal)
+        [Route("Get/{SchoolId}/{StudentId}/{SectionId}/{GradeTypeCode}/{GradeCodeOccurrence}")]
+        public async Task<IActionResult> Get(int SchoolId, int StudentId, int SectionId, string GradeTypeCode, int GradeCodeOccurrence)
         {
             try
             {
                 await _context.Database.BeginTransactionAsync();
 
                 GradeDTO? result = await _context.Grades
-                    .Where(x => x.SchoolId == KeyVal)
+                    .Where(x => x.SchoolId == SchoolId)
+                    .Where(x => x.StudentId == StudentId)
+                    .Where(x => x.SectionId == SectionId)
+                    .Where(x => x.GradeTypeCode == GradeTypeCode)
+                    .Where(x => x.GradeCodeOccurrence == GradeCodeOccurrence)
                     .Select(sp => new GradeDTO
                 {
                     Comments = sp.Comments,
@@ -106,6 +110,16 @@ namespace OCTOBER.Server.Controllers.UD
         [HttpPut]
         [Route("Put")]
         public Task<IActionResult> Put([FromBody] GradeDTO _T)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IActionResult> GenericRestController<GradeDTO>.Delete(int KeyVal)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IActionResult> GenericRestController<GradeDTO>.Get(int KeyVal)
         {
             throw new NotImplementedException();
         }

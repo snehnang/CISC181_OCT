@@ -26,8 +26,8 @@ namespace OCTOBER.Server.Controllers.UD
         }
 
         [HttpDelete]
-        [Route("Delete/{KeyValue}")]
-        public Task<IActionResult> Delete(int KeyVal)
+        [Route("Delete/{SchoolId}/{InstructorId}")]
+        public Task<IActionResult> Delete(int SchoolId, int InstructorId)
         {
             throw new NotImplementedException();
         }
@@ -68,15 +68,16 @@ namespace OCTOBER.Server.Controllers.UD
         }
 
         [HttpGet]
-        [Route("Get/{KeyVal}")]
-        public async Task<IActionResult> Get(int KeyVal)
+        [Route("Get/{SchoolId}/{InstructorId}")]
+        public async Task<IActionResult> Get(int SchoolId, int InstructorId)
         {
             try
             {
                 await _context.Database.BeginTransactionAsync();
 
                 InstructorDTO? result = await _context.Instructors
-                    .Where(x => x.SchoolId == KeyVal)
+                    .Where(x => x.SchoolId == SchoolId)
+                    .Where(x => x.InstructorId == InstructorId)
                     .Select(sp => new InstructorDTO
                 {
                     CreatedBy = sp.CreatedBy,
@@ -114,6 +115,16 @@ namespace OCTOBER.Server.Controllers.UD
         [HttpPut]
         [Route("Put")]
         public Task<IActionResult> Put([FromBody] InstructorDTO _T)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IActionResult> GenericRestController<InstructorDTO>.Delete(int KeyVal)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IActionResult> GenericRestController<InstructorDTO>.Get(int KeyVal)
         {
             throw new NotImplementedException();
         }

@@ -20,8 +20,8 @@ namespace OCTOBER.Server.Controllers.UD
         }
 
         [HttpDelete]
-        [Route("Delete/{KeyVal}")]
-        public Task<IActionResult> Delete(int KeyVal)
+        [Route("Delete/{SchoolId}/{SectionId}/{GradeTypeCode}")]
+        public Task<IActionResult> Delete(int SchoolId, int SectionId, string GradeTypeCode)
         {
             throw new NotImplementedException();
         }
@@ -60,15 +60,17 @@ namespace OCTOBER.Server.Controllers.UD
         }
 
         [HttpGet]
-        [Route("Get/{KeyVal}")]
-        public async Task<IActionResult> Get(int KeyVal)
+        [Route("Get/{SchoolId}/{SectionId}/{GradeTypeCode}")]
+        public async Task<IActionResult> Get(int SchoolId, int SectionId, string GradeTypeCode)
         {
             try
             {
                 await _context.Database.BeginTransactionAsync();
 
                 GradeTypeWeightDTO? result = await _context.GradeTypeWeights
-                    .Where(x => x.SchoolId == KeyVal)
+                    .Where(x => x.SchoolId == SchoolId)
+                    .Where(x => x.SectionId == SectionId)
+                    .Where(x => x.GradeTypeCode == GradeTypeCode)
                     .Select(sp => new GradeTypeWeightDTO
                 {
                     CreatedBy = sp.CreatedBy,
@@ -104,6 +106,16 @@ namespace OCTOBER.Server.Controllers.UD
         [HttpPut]
         [Route("Put")]
         public Task<IActionResult> Put([FromBody] GradeTypeWeightDTO _T)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IActionResult> GenericRestController<GradeTypeWeightDTO>.Delete(int KeyVal)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IActionResult> GenericRestController<GradeTypeWeightDTO>.Get(int KeyVal)
         {
             throw new NotImplementedException();
         }

@@ -20,8 +20,8 @@ namespace OCTOBER.Server.Controllers.UD
         }
 
         [HttpDelete]
-        [Route("Delete/{KeyVal}")]
-        public Task<IActionResult> Delete(int KeyVal)
+        [Route("Delete/{SectionId}")]
+        public Task<IActionResult> Delete(int SectionId)
         {
             throw new NotImplementedException();
         }
@@ -62,15 +62,15 @@ namespace OCTOBER.Server.Controllers.UD
         }
 
         [HttpGet]
-        [Route("Get/{KeyVal}")]
-        public async Task<IActionResult> Get(int KeyVal)
+        [Route("Get/{SectionId}")]
+        public async Task<IActionResult> Get(int SectionId)
         {
             try
             {
                 await _context.Database.BeginTransactionAsync();
 
                 SectionDTO? result = await _context.Sections
-                    .Where(x=>x.SchoolId == KeyVal)
+                    .Where(x=>x.SectionId == SectionId)
                     .Select(sp => new SectionDTO
                 {
                     Capacity = sp.Capacity,
